@@ -1,33 +1,44 @@
 ---
-title: "Visualization"
+title: "Capstone Project Proposal"
 author: "C. McBride"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
-rm(flights)
+
 ## Executive Summary
 
-The FAA also administers federal funds for the maintenaince and improvement of commercial airports. Decisions on the allocation of those funds are made annually and are based on, among other factors, flight and passenger volume. Data from the BTS plays an essential role in the approval of grant applications. I've chosen this particular dataset because I would like to practice working with high volume data. 
+The Airport Improvement Program (AIP) provides grants for the improvement related to airport safety, capacity, security, and envrionmental concerns. Decisions on the allocation of those funds are made annually and are based on, among other factors, flight and passenger volume. Data from the Bureau of Transportation Statistics plays an essential role in the AIP as the data provider. 
+
+Because of the large number of flights in the US each year and the voluminous data tabulated on them, the AIP relies on succinct analysis and summary of the data to select candidate airports for the program's grants.  
 
 For this analysis, I will examine several of the most recent years of data with two goals: first, to find out how federal expenditure on airport improvement has benefited travelers, and second what airports would most benefit from receiving funding for the coming year. Out of this inquiry will come a visualization aimed at decision makers involved in funding allocation to better inform their decisions.
 
 ## The Why
 
-Identify airports most eligible for API grants.
+**Goal** Identify airports eligible for API grants and recommendable recipients.
+
+**Intended Outcome** A series of single-frame visualizations describing candidate airports, accompanied by a short advisory report on the best candidates. The data product should facilitate and expodite grant recipient selection.
 
 Applicants for grants through the AIP are required to prove that the proposed improvements are justified based primarily on demand for services at the applicant airport. Normally, it's incumbent on the airports to apply individually for AIP grant funds through specific and detailed project proposals. In this case, however, the complete flights dataset for all airports within the NPIAS will be analyzed for candidate airports. The conclusions for the report will be a list of airports most in need of AIP grants for improvements necessary to meet civil air-transportation demand.Benefits-cost analysis.
 
 ## The Who
 
-The report and visualizations will be directed toward the FAA Airport Improvement Project review board. The board consists of industry professional well-versed in all aspects of the industry and sufficiently numerate to appreciate complex multivariable analysis and fully understand conclusions inferred from the data.
+The report and visualizations will be directed toward the FAA Airport Improvement Project review board. The board consists of industry professionals well-versed in all aspects of the industry and sufficiently numerate to appreciate complex multivariable analysis and fully understand conclusions inferred from the data. 
 
 
 ## The What
+
 The Bureau of Transportation Statistics through the Federal Aviation Administration tracks flight log data for all commercial and private flights originating from or terminating in the United States. 
-The Bureau of Transportation Statistics archives and makes openly available detailed flight log data from all flights originating or terminating within the United States. The data is organized by year and includes record of origin and destination, delays in departure and arrival, and aircraft type among others. In order to meet the goals of the report, additional data sets will be brought into the analysis, specifically weather and passenger volume along with data about the infrastructure of individual airports.
+The Bureau of Transportation Statistics archives and makes openly available detailed flight log data from all flights originating or terminating within the United States. 
+
+The data is organized by year and includes record of origin and destination, delays in departure and arrival, and aircraft type among others. 
+
+In order to meet the goals of the report, additional data sets will be brought into the analysis such as the profile and current condition of airport infrastructure and passenger volume along with data about the infrastructure of individual airports.
 
 ## The How
 
@@ -35,4 +46,40 @@ Through several single page infographics, one each for the candidate airports, v
 
 ## Challenges
 
-There will be two main challenges that I foresee. First, is the sheer volume of the data. In order to derive meaningful conclusions from the data, it will be necessary to include all of it in the analysis. This will require working with data tools that are new to me and effectively and efficiently querying the data besides building an clear, concise visualization. The second challenge is choosing metrics to answer the questions the stakeholders have. The associations between many of the features in the data are nuanced and not individually significantly correlated. For this reason, coming to conclusions that I can support with the data will require a greater analysis on my part.
+There will be two main challenges that I foresee. First, is the sheer volume of the data. The size of the dataset will require working with data tools that are new to me and effectively and efficiently querying the data besides building an clear, concise visualization. The volume of data may also make working with single-frame visualizations the best option. 
+
+The second challenge is choosing metrics to answer the questions the stakeholders have. The associations between many of the features in the data are nuanced and not individually significantly correlated. For this reason, coming to conclusions that I can support with the data will require a greater analysis on my part.
+
+
+## Persona
+
+### Forrest Fitzgerald
+
+![](C:\Users\conner\tableau\capstone_project\persona_image.jpg)
+
+
+
+**Role:** Airport Improvement Program advisory board member and long time airline industry administrator. Works with other board members to select airports for grants and approve development projects.
+
+**Age:** 56
+
+**Gender:** Male
+
+**Education:** MS Engineering, MBA
+
+**Goals:**
+
+ + Start with short list of candidate airports and improvement projects.
+ 
+ + Avoid having to wade through dense tabular data for insights.
+ 
+ + Choose airports that will improve the overall airline experience for the traveler, while improving airport efficiency and security.
+
+**Challenges & Needs**
+
+ + Very "by the numbers" and data driven in his selection approach.
+ 
+ + Short on time and so requires concise data summaries with immediately interpretable visualizations.
+ 
+ + Not particularly tech-savvy and request data products with an intuitive interface.
+

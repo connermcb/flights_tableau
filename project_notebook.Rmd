@@ -1,0 +1,118 @@
+---
+title: "Airport Improvement Project - Airport Reviews"
+author: "C. McBride"
+date: "January 6, 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r packages, message=FALSE, warning=FALSE, error=FALSE}
+# load dependencies
+library(sqldf)
+library(dplyr)
+```
+
+
+
+```{r list of flights data}
+# get list of files to be processed
+flts_fs <- dir("c:/users/conner/tableau/flight_data/")
+flts_fs <- flts_fs[-23]
+
+flts_fs <- sapply(1987:2008, function(x) paste0("new_", x, ".csv"))
+```
+
+```{r airports that report delay stats}
+# list of codes for airports participating in delay reporting
+rprt_delay <-  c('ATL', 'BWI', 'BOS', 'CLT', 'MDW', 'ORD', 'DAL', 'DFW', 'DEN',
+                 'DTW', 'FLL', 'IAH', 'LAS', 'LAX', 'MIA', 'MSP', 'EWR', 'JFK',
+                 'LGA', 'MCO', 'PHL', 'PHX', 'PDX', 'SLC', 'SAN', 'SFO', 'SEA',
+                 'TPA', 'IAD', 'DCA') 
+
+# function reduces scope of data to reporting airports
+reduce_to_rprt <- function(df){
+  df <- df[df$Origin %in% rprt_delay | df$Dest %in% rprt_delay,]
+  return(df)
+}
+```
+
+
+
+
+
+```{r delay variable formatting}
+## function for formatting delay times
+format_delays <- function(df){
+  # transform NA's to 0's
+  df$DepDelay[is.na(df$DepDelay)] <- 0
+
+  # remove observations with outlier values in delay column
+  df[df$DepDelay<=480,]
+  
+  return(df)
+}
+```
+
+```{r get summary stats from each year, }
+# establish df with stats from first file
+sum_stats_df <- function(f_name){
+  # read in data
+  f4 <- file(f_name, 'r')
+  classes_vector <- c(rep("integer", 8), 
+                      rep("character", 3),
+                      rep("integer", 5),
+                      rep("character", 2),
+                      rep("integer", 3),
+                      rep("factor", 3),
+                      rep("integer", 5)
+                      )
+  df <- sqldf("DROP TABLE IF EXISTS f4;
+              select * from f4;",
+              
+              dbname = tempfile(),
+              method=classes_vector,
+              file.format = list(header = T, row.names = F))
+
+  close(f4)
+
+  # format using predefined functions
+  print(dim(df))
+  df <- reduce_to_rprt(df)
+  print(dim(df))
+  df <- format_delays(df)
+  print(dim(df))
+
+  # group and summarize
+  smry <- df%>%
+    group_by(Year, Origin)%>%
+    summarize(avg_delay=mean(DepDelay),
+              vol=n())
+
+  rm(df)
+  # print(head(smry))
+  # print(class(smry))
+  return(smry)
+}
+```
+
+```{r}
+rewrite_csv <- function(f){
+  tmp_df <- read.csv(f)
+  write.csv(tmp_df, paste0("new_", f))
+  rm(tmp_df)
+}
+```
+
+
+```{r}
+fs <- sapply(1988:2008, function(x) paste0(x,".csv"))
+for(f in fs){rewrite_csv(f)}
+
+sum_stats_df("new_1987.csv")
+setwd("../flight_data")
+all_smrys <- do.call(rbind, lapply(flts_fs, sum_stats_df))
+```
+
